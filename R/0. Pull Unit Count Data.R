@@ -32,16 +32,19 @@ Housing_Data_by_Place_Github <- Housing_Data_by_Place %>%
               select(GEOID)) %>% 
   filter(str_detect(variable, "B25024"))
 
-# Had to restrict Housing_Unit_Place to keep the filesize down for Github To
-# pull all housing unit categories by race as well as for lower populations
-# (though be warned the error rate goes through the roof), use
-# Housing_Data_by_Place instead of Housing_data_by_Place_Github
+# Had to restrict Housing_Unit_Place and Housing_Unit_Tract to keep the filesize
+# down for Github. To pull all housing unit categories by race as well as for
+# lower population places (though be warned the error rate goes through the
+# roof), use Housing_Data_by_Place instead of Housing_data_by_Place_Github
 
 write_csv(Housing_Data_by_Place_Github, str_c("Data/Housing_Unit_Place.csv", na=""))
 write_csv(Population_by_Place, str_c("Data/Population_Place.csv", na=""))
 
 Housing_Data_by_Tract <- get_acs(year = 2022, geography = "tract", state = "IL", variables = Vars, geometry = FALSE) %>% 
   mutate(High_Error = ((moe/1.645)/estimate)>.2)
+
+Housing_Data_by_Tract_Github <- Housing_Data_by_Tract %>% 
+  filter(str_detect(variable, "B25024"))
 
 Population_by_Tract <- get_acs(year = 2022, geography = "tract", state = "IL", variables = "B01001_001", geometry = FALSE) %>% 
   mutate(High_Error = ((moe/1.645)/estimate)>.2)

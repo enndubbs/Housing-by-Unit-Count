@@ -53,6 +53,7 @@ CCA_DF <- Housing_Unit_CCA %>%
   ungroup()
 
 write_rds(CCA_DF, "Data/CCA_DF.rds")
+write_csv(CCA_DF, "Data/CCA_DF.csv")
 
 Over50k <- Population_by_Place %>% 
   filter(estimate > 50000) %>% 
@@ -79,3 +80,4 @@ Place_DF <- Housing_Unit_Place %>%
   mutate(Geography = str_c(City, ", ", State_Abb))
 
 write_rds(Place_DF, "Data/Place_DF.rds")
+write_csv(Place_DF, "Data/Place_DF.csv")
